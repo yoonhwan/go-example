@@ -1,0 +1,1 @@
+kill $(ps aux |awk '/go-example/ {print $2}')

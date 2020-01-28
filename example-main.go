@@ -10,7 +10,7 @@ func main() {
 	logger()
 	test()
 	go contextText()
-
+	go test_signal()
 	for {
 		select {
 		case <-time.After(time.Second * 1):
