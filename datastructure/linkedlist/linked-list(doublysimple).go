@@ -114,10 +114,10 @@ func (this *LinkedList) DeleteFirst() *DNode {
 	prev := (*node).GetPrev()
 	next := (*node).GetNext()
 	this.Link(prev, nil, next)
-	remove := node
-	(*remove).Clear()
+	var returnNode DNode = *node
+	(*node).Clear()
 
-	return node
+	return &returnNode
 }
 
 func (this *LinkedList) DeleteLast() *DNode {
@@ -129,10 +129,10 @@ func (this *LinkedList) DeleteLast() *DNode {
 	prev := (*node).GetPrev()
 	next := (*node).GetNext()
 	this.Link(prev, nil, next)
-	remove := node
-	(*remove).Clear()
+	var returnNode DNode = *node
+	(*node).Clear()
 
-	return node
+	return &returnNode
 }
 
 func (this *LinkedList) Len() int {

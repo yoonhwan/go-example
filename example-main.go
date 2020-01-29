@@ -16,8 +16,9 @@ func main() {
 	Doubly()
 	test()
 	
-	// StartStackTest()
-
+	StartStackTest()
+	StartQueueTest()
+	
 	go contextText()
 	go test_signal()
 	for {
