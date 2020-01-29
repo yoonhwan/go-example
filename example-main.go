@@ -5,6 +5,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 
+	. "github.com/yoonhwan/go-example/datastructure/linkedlist"
 	. "github.com/yoonhwan/go-example/datastructure"
 )
 
@@ -14,6 +15,9 @@ func main() {
 	Singly()
 	Doubly()
 	test()
+	
+	// StartStackTest()
+
 	go contextText()
 	go test_signal()
 	for {
