@@ -122,6 +122,38 @@ outer:
 	}
 }
 
+func InsertPrev(target int, value int) {
+	if head == nil {
+		panic("")
+	}
+
+	var node *SNode = head
+	var prev *SNode = nil
+outer:
+	for {
+		if (*node).get() == target {
+			if prev == nil { //head
+				newone := MakeNewNode(value)
+				(*newone).setNext(node)
+				head = newone
+			} else {
+				newone := MakeNewNode(value)
+				(*newone).setNext(node)
+				(*prev).setNext(newone)
+			}
+
+			break outer
+		}
+
+		if (*node).getNext() == nil {
+			break outer
+		} else {
+			prev = node
+			node = (*node).getNext()
+		}
+	}
+}
+
 func InsertNext(target int, value int) {
 	if head == nil {
 		panic("")
@@ -169,6 +201,35 @@ outer:
 	}
 }
 
+func Contains(target int) (SNode, bool) {
+	if head == nil {
+		panic("")
+	}
+
+	var node *SNode = head
+	var result *SNode = nil
+	var find bool = false
+outer:
+	for {
+		if (*node).get() == target {
+			result = node
+			find = true
+			break outer
+		}
+
+		if (*node).getNext() == nil {
+			break outer
+		} else {
+			node = (*node).getNext()
+		}
+	}
+
+	if result != nil {
+		return *result, find
+	}
+	return SNode{}, false
+}
+
 func Singly() {
 	head = MakeNewNode(0)
 	for index := 1; index < 11; index++ {
@@ -176,8 +237,16 @@ func Singly() {
 	}
 
 	Tour(func(x int) { fmt.Println(x) })
+	InsertPrev(0, -99)
 	InsertNext(3, -152125)
+	InsertPrev(-152125, -9977)
+	if v, e := Contains(4); e == true {
+		fmt.Println(v)
+	}
 	Delete(4)
+	if v, e := Contains(4); e == true {
+		fmt.Println(v)
+	}
 	Tour(func(x int) { fmt.Println(x) })
 	Clear()
 	head.clear()
