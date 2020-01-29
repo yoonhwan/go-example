@@ -12,6 +12,7 @@ func main() {
 	logger()
 
 	Singly()
+	Doubly()
 	test()
 	go contextText()
 	go test_signal()
