@@ -1,8 +1,8 @@
 package main
 
 import (
-	"sync"
 	"context"
+	"sync"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -10,12 +10,11 @@ import (
 
 func contextText() {
 
-	
 	var wg sync.WaitGroup
-	
+
 	wg.Add(1)
 	go func() {
-		
+
 		ctx := context.Background()
 		ctx, cancel := context.WithCancel(ctx)
 		ctx, cancel = context.WithCancel(ctx)
@@ -30,19 +29,19 @@ func contextText() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		outer:
+	outer:
 		for {
 			select {
-				case <-time.After(time.Second * 6):
-					log.Info().Msg("Waitting.")
-					break outer
+			case <-time.After(time.Second * 6):
+				log.Info().Msg("Waitting.")
+				break outer
 			}
 		}
 	}()
 	wg.Wait()
 	wg.Add(2)
 	go func() {
-	
+
 		ctx1, cancel1 := context.WithCancel(context.Background())
 		ctx2, _ := context.WithCancel(context.Background())
 		defer func() {
@@ -60,7 +59,7 @@ func contextText() {
 }
 
 func testA(ctx *context.Context) {
-	outer:
+outer:
 	for {
 		select {
 		case <-(*ctx).Done():
@@ -74,7 +73,7 @@ func testA(ctx *context.Context) {
 }
 
 func testB(ctx *context.Context) {
-	outer:
+outer:
 	for {
 		select {
 		case <-(*ctx).Done():
