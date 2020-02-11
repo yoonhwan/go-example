@@ -2,11 +2,31 @@ package main
 
 import (
 	"context"
+	"runtime"
 	"sync"
 	"time"
 
 	"github.com/rs/zerolog/log"
 )
+
+type contextDetail struct {
+}
+
+// ContextMgr : context manager
+type ContextMgr struct {
+	contextList map[string]interface{}
+}
+
+// MakeContext : new context
+func (a *ContextMgr) MakeContext(name string) (ctx context.Context, err error) {
+	_, fn, line, _ := runtime.Caller(1)
+	// if val, ok := a.contextList[fn]; ok {
+
+	// }
+
+	log.Info().Msgf("%v::%v, %v", fn, line, name)
+	return
+}
 
 func contextText() {
 

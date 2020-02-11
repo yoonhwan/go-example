@@ -12,14 +12,14 @@ func test_signal() {
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGKILL)
 
-	outer:
+outer:
 	for {
 		select {
-		case sig:=<- signals:
+		case sig := <-signals:
 			log.Info().Msg(sig.String())
 			break outer
 		}
 	}
-	
+
 	panic("Exiting")
 }

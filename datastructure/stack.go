@@ -50,13 +50,13 @@ func StartStackTest() {
 	testStack.initial()
 
 	for index := 0; index < 11; index++ {
-		testStack.push(index)	
+		testStack.push(index)
 	}
-	
+
 	testStack.flatmap(func(x int) { fmt.Println("Stack Tour:", x) })
 	fmt.Println("Stack Length:", testStack.count())
 	for index := 0; index < 11; index++ {
-		fmt.Println("Stack Pop:", testStack.pop())	
+		fmt.Println("Stack Pop:", testStack.pop())
 	}
 	testStack.push(5)
 	testStack.push(6)
