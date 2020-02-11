@@ -12,7 +12,12 @@ import (
 func main() {
 	logger()
 
-	STContextMgr().MakeContext("TestOne")
+	// for i := 0; i < 100; i++ {
+		STContextMgr().MakeContext("TestOne")
+	// }
+
+	// STContextMgr().Clear("TestOne")
+
 
 	Singly()
 	Doubly()
@@ -31,5 +36,34 @@ func main() {
 			log.Info().Msg("running..")
 		}
 	}
+
+	/*
+	b, cancel :=context.Context.NewContextWithCancel()
+	go func(ctx context.Context, test int) {
+	outer:
+		for {
+			select {
+			case <- ctx.Done():
+				break outer
+			default:
+
+				test++
+
+				if test >= 100
+					break outer
+				break
+			}
+		}
+	}(b, 0)
+	cancel()
+
+	func test1() {
+		test := 1
+		for i := 0; i < 100; i++ {
+			test++	
+		}
+	}
+
+	*/
 
 }

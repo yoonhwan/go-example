@@ -4,6 +4,7 @@ import "sync"
 
 type singletonMgr struct {
 	context *ContextMgr
+
 }
 
 var (
