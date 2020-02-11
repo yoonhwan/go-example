@@ -5,21 +5,24 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	. "github.com/yoonhwan/go-example/datastructure/linkedlist"
 	. "github.com/yoonhwan/go-example/datastructure"
+	. "github.com/yoonhwan/go-example/datastructure/linkedlist"
 )
 
 func main() {
 	logger()
 
+	STContextMgr().MakeContext("TestOne")
+
 	Singly()
 	Doubly()
 	test()
-	
+
 	StartStackTest()
 	StartQueueTest()
-	
+
 	BackoffTest()
+
 	go contextText()
 	go test_signal()
 	for {
