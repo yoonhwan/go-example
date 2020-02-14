@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/rs/zerolog/log"
 )
@@ -20,6 +21,9 @@ outer:
 			break outer
 		}
 	}
+	SingletonFinalizer()
+
+	<-time.After(time.Millisecond * 600)
 
 	panic("Exiting")
 }

@@ -4,66 +4,42 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-
-	. "github.com/yoonhwan/go-example/datastructure"
-	. "github.com/yoonhwan/go-example/datastructure/linkedlist"
+	// . "github.com/yoonhwan/go-example/datastructure"
+	// . "github.com/yoonhwan/go-example/datastructure/linkedlist"
 )
 
 func main() {
-	logger()
-
-	// for i := 0; i < 100; i++ {
-		STContextMgr().MakeContext("TestOne")
-	// }
-
-	// STContextMgr().Clear("TestOne")
-
-
-	Singly()
-	Doubly()
-	test()
-
-	StartStackTest()
-	StartQueueTest()
-
-	BackoffTest()
-
-	go contextText()
-	go test_signal()
-	for {
-		select {
-		case <-time.After(time.Second * 1):
-			log.Info().Msg("running..")
-		}
-	}
-
-	/*
-	b, cancel :=context.Context.NewContextWithCancel()
-	go func(ctx context.Context, test int) {
-	outer:
+	ch := make(chan int)
+	go func() {
+		detail, _ := STContextMgr().MakeLoopContext("main watcher")
 		for {
 			select {
-			case <- ctx.Done():
-				break outer
-			default:
-
-				test++
-
-				if test >= 100
-					break outer
-				break
+			case <-time.After(time.Second * 1):
+				// log.Info().Msg("r....")
+			case <-detail.ctx.Done():
+				// for context test
+				// ch <- 1
+				// return
 			}
 		}
-	}(b, 0)
-	cancel()
 
-	func test1() {
-		test := 1
-		for i := 0; i < 100; i++ {
-			test++	
-		}
-	}
+	}()
+	go test_signal()
+	// golang default system test
+	// loggerTest()
+	FinalizerTest()
 
-	*/
+	// datastructure test
+	// Singly()
+	// Doubly()
+	// StartStackTest()
+	// StartQueueTest()
 
+	// context & backoff test
+	// BackoffTest()
+	ContextText()
+
+	<-ch
+
+	log.Info().Msg("bye bye..")
 }

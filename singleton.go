@@ -1,10 +1,11 @@
 package main
 
-import "sync"
+import (
+	"sync"
+)
 
 type singletonMgr struct {
 	context *ContextMgr
-
 }
 
 var (
@@ -22,5 +23,10 @@ func STContextMgr() *ContextMgr {
 }
 
 func init() {
+	STContextMgr().StartContextMgr().Watch()
+}
 
+// SingletonFinalizer : desc
+func SingletonFinalizer() {
+	STContextMgr().FinishContextMgr()
 }

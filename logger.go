@@ -11,15 +11,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func logger() {
-	fmt.Println("logger")
-
+func init() {
 	//https://github.com/rs/zerolog
 
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	//Pretty logging
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	log.Logger = log.With().Caller().Logger()
+
+}
+
+func loggerTest() {
+	fmt.Println("logger")
 
 	log.Print("hello world")
 
