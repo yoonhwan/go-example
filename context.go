@@ -79,8 +79,15 @@ func (a *ContextMgr) Cancel(name string) {
 func (a *ContextMgr) Finish(detail *contextDetailItem) {
 	a.Lock()
 	defer a.Unlock()
-	if _, ok := a.contextMap[detail.name]; ok {
-		log.Info().Msgf("\"%v\" context finish %v working duration with (%v)", detail.name, time.Now().Sub(detail.stime), detail.ctx.Err())
+	if sub, ok := a.contextMap[detail.name]; ok {
+		if sub.duration == -1 {
+			log.Info().Msgf("\"%v\" context finish %v working duration with (%v)", sub.name, time.Now().Sub(sub.stime), sub.ctx.Err())
+		} else {
+			if time.Now().Sub(sub.stime) > sub.duration {
+				log.Error().Str("fix:", "make cancel operation like \"defer contextDetailItem.cancel()\" inside single context method").Msgf("\"%v\" context finish %v working duration with (%v)", sub.name, time.Now().Sub(sub.stime), sub.ctx.Err())
+			}
+		}
+
 		a.contextMap[detail.name] = nil
 		delete(a.contextMap, detail.name)
 	}
@@ -180,7 +187,6 @@ func (a *ContextMgr) FinishContextMgr() {
 		iter := a.Iter()
 		for sub := range iter {
 			a.Cancel(sub.name)
-
 		}
 	}()
 }
