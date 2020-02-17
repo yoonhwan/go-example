@@ -25,6 +25,10 @@ func main() {
 
 	}()
 	go test_signal()
+
+	// slack test
+	SlackTest()
+
 	// golang default system test
 	// loggerTest()
 	FinalizerTest()
