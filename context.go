@@ -210,7 +210,7 @@ func ContextText() {
 			for {
 				select {
 				case <-detail.ctx.Done():
-					log.Info().Msg("TestThree1")
+					log.Info().Msgf("TestThree1 %v", detail.ctx.Err())
 					return
 				}
 			}
@@ -219,7 +219,7 @@ func ContextText() {
 			for {
 				select {
 				case <-detail.ctx.Done():
-					log.Info().Msg("TestThree2")
+					log.Info().Msgf("TestThree2 %v", detail.ctx.Err())
 					return
 				}
 			}
@@ -262,7 +262,7 @@ func loopFuncWithCtx(detail *contextDetailItem) {
 		for {
 			select {
 			case <-detail.ctx.Done():
-				log.Info().Msg("quit loopFuncWithCtx 1")
+				log.Info().Msgf("quit loopFuncWithCtx %v", detail.ctx.Err())
 				break outer
 				//or return
 			case <-time.After(time.Second * 1):
