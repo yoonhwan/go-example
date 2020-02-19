@@ -1,9 +1,9 @@
 package main
 
 import (
-	"time"
-
 	"github.com/rs/zerolog/log"
+
+	"time"
 	// . "github.com/yoonhwan/go-example/datastructure"
 	// . "github.com/yoonhwan/go-example/datastructure/linkedlist"
 )
@@ -18,8 +18,8 @@ func main() {
 				// log.Info().Msg("r....")
 			case <-detail.ctx.Done():
 				// for context test
-				// ch <- 1
-				// return
+				ch <- 1
+				return
 			}
 		}
 
@@ -46,4 +46,6 @@ func main() {
 	<-ch
 
 	log.Info().Msg("bye bye..")
+
+	pubsubTest()
 }
