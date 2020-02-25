@@ -1,6 +1,9 @@
 package test
 
-import "testing"
+import (
+	"sync"
+	"testing"
+)
 
 func TestSum(t *testing.T) {
 	type args struct {
@@ -76,4 +79,26 @@ func BenchmarkCapacityMap(b *testing.B) {
 		b.StartTimer()
 		test(m)
 	}
+}
+
+func BenchmarkFile(b *testing.B) {
+	b.StopTimer()
+	makefile(make([]byte, 10 * 1e+8, 10 * 1e+8))
+	b.StartTimer()
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < b.N; i++ {
+		//file()
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			file()
+		}()
+	}
+
+	wg.Wait()
+
+	deletefile()
+
 }
