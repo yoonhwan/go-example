@@ -21,6 +21,40 @@ func backOff() BackOff {
 	return result
 }
 
+func commonBackoffLogger(err error, t time.Duration) {
+	log.Warn().Msgf("error: %v happened at time: %v", err, t)
+}
+
+func Backoff(ctx context.Context, max time.Duration, operator func() error, checker func(er error) error) (err error){
+	//customize backoff iteration
+	customEb, _ := backOff().(*ExponentialBackOff)
+	customEb.MaxElapsedTime = max
+	eb := WithContext(customEb, ctx)
+	start := time.Now()
+	err = nil
+	for {
+		//itrator
+		err = operator()
+
+
+		if err = checker(err); err == nil {
+			break
+		}
+
+
+		commonBackoffLogger(err, time.Now().Sub(start))
+
+		next := eb.NextBackOff()
+		if next == Stop {
+			err = errors.New("error: time out woker")
+			log.Error().Err(err)
+			break
+		}
+		time.Sleep(next)
+	}
+	return
+}
+
 func ClosureOperator(name string) func() error {
 	x := 0
 	f_name := name
@@ -55,9 +89,7 @@ func BackoffTest() {
 
 	// normal function backoff
 	op := ClosureOperator("test1")
-	notify := func(err error, t time.Duration) {
-		log.Warn().Msgf("error: %v happened at time: %v", err, t)
-	}
+	notify := commonBackoffLogger
 
 	eb := backOff()
 	err := RetryNotify(op, eb, notify)
@@ -92,6 +124,12 @@ func BackoffTest() {
 		}
 		time.Sleep(next)
 	}
+
+
+	op = ClosureOperator("test2")
+	err = Backoff(context.Background(), time.Second * 3, op, func(errorChk error) error{
+		return errorChk
+	})
 
 	log.Info().Msg("Backoff test finish")
 }
